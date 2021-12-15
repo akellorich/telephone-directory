@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- This is the BS4 CDN -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous"> -->
+    <!-- Include the bootstrap CSS to import styles -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <title>Bootstrap 4 Tutorial</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <p class="text-uppercase bg-info text-white ">This is a information</p>
+        <p class="bg-success text-lowercase">This is a success</p>
+        <p class="bg-warning font-weight-bold">This is a warning</p>
+        <p class="bg-danger font-italic">This is a danger</p>
+        <p class="bg-primary lead">This is a primary</p>
+        <p class="bg-secondary">This is a secondary</p>
+        <p class="bg-muted">This is a Muted</p>
+
+        <p class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            This is a <span class='font-weight-bold lead'>success</span>  alert
+        </p>
+
+        <p class="alert alert-info">This is <span class='font-weight-bold lead'>Info</span>  alert</p>
+        <p class="alert alert-danger">This is a <span class='font-weight-bold lead'>danger</span>  alert</p>
+        <p class="alert alert-warning">This is a <span class='font-weight-bold lead'>warning</span>  alert</p>
+    </div>
+    <!-- Modal  -->
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="test">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>This is the modal body</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<!-- Include bootrstrap Javascript to import the javascript -->
+<script src="/js/jquery-3.6.0.js"></script>
+<script src="/js/bootstrap.js"></script>
+
+</html>
