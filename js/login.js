@@ -21,6 +21,42 @@ $(document).ready(()=>{
             </button>
             </div>` 
             notifications.html(errors)
+        }else{
+            errors=`
+                <div class='alert alert-info'> 
+                    <i class="fas fa-hourglass-half fa-lg"></i> 
+                    Logging you in, please wait ...
+                </div>`
+            notifications.html(errors)
+            
+            $.post(
+                "controllers/useroperations.php",
+                {
+                    loginuser:true,
+                    username,
+                    password
+                },
+                (data)=>{
+                    data=$.trim(data)
+                    if(data=="invalid"){
+                        errors=`
+                            <div class='alert alert-danger'> 
+                                <i class="fas fa-exclamation-circle fa-lg"></i> 
+                               Invalid <strong>Username</strong> or <strong>Password</strong>
+                            </div>`
+                        notifications.html(errors)
+                    }else if(data=="success"){
+                        location.assign("main.html")
+                    }else{
+                        errors=`
+                            <div class='alert alert-danger'> 
+                                <i class="fas fa-exclamation-circle fa-lg"></i> 
+                               Sorry  an error occured. ${data}
+                            </div>`
+                        notifications.html(errors)
+                    }
+                }
+            )
         }
     })
 
