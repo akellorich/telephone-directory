@@ -14,7 +14,41 @@ $(document).ready(()=>{
     const emailfield=$("#email")
     const regdocnofield=$("#regdocno")
     const notifications=$("#notifications")
+    const regdatefield=$("#regdate")
+    const hasbrachesfield=$("#hasbranches")
+    // check if we are on edit mode
+    const customerid=location.hash.substring(1)
     
+    if(customerid!==undefined ){
+        // switch to edit mode
+        // get customers details and populate on the screen
+        $.getJSON(
+            "controllers/customeroperations.php",
+            {
+                getcustomerdetails:true,
+                customerid
+            },
+            (data)=>{
+                // customeridfield.val(data[0].customerid)
+                customernamefield.val(data[0].customername)
+                physicaladdressfield.val(data[0].physicaladdress)
+                postaladdressfield.val(data[0].postaladdress)
+                townfield.val(data[0].town)
+                postalcodefield.val(data[0].postalcode)
+                telephonefield.val(data[0].telephone)
+                emailfield.val(data[0].email)
+                coordinatesfield.val(`${data[0].lat},${data[0].long}`)
+                regdocnofield.val(data[0].regno)
+                regdatefield.val(data[0].regdate)
+                // regdatefield.val(data[0].physicaladdress)
+                hasbrachesfield.prop("checked",data[0].hasbranches)
+                classificationfield.val(data[0].classificationid)
+                regdocfield.val(data[0].regdocid)
+            }
+        )
+    }
+    // assign datepicker to the regdatefield
+    regdatefield.datepicker({maxDate: new Date(),dateFormat: 'dd-M-yy'})
     // get existing classifications form the database
     $.getJSON(
         "controllers/settingsoperations.php",
@@ -55,7 +89,7 @@ $(document).ready(()=>{
         (data)=>{
             let results=""
             data.forEach((industry)=>{
-                results+=`<tr><td><input type='checkbox' id='${industry.industryid}'></td><td>${industry.description}</td></tr>`
+                results+=`<tr><td><input type='checkbox' id='${industry.industryid}' class='industry'></td><td>${industry.description}</td></tr>`
             })
             industrieslist.find("tbody").html(results)
         }
@@ -89,13 +123,26 @@ $(document).ready(()=>{
             postalcode=postalcodefield.val(),
             telephone=telephonefield.val(),
             email=emailfield.val(),
-            regno=regdocnofield.val()
+            regno=regdocnofield.val(),
+            regdate=regdatefield.val(),
+            hasbranches=hasbrachesfield.prop("checked")?1:0,
+            industries=[];
+        
+        // generate the customers industry
+        $(".industry").each(function(){
+            $this=$(this)
+           if($this.prop("checked")){
+               industries.push($this.attr("id"))
+           }
+        })
+        // convert the industries variable into a JSON object
+        industries=JSON.stringify(industries)
         // check for blank fields
         // save the data 
         $.post(
             "controllers/customeroperations.php",
             {
-                saevcustomer:true,
+                savecustomer:true,
                 customerid:0,
                 customerno:'',
                 customername,
@@ -109,7 +156,10 @@ $(document).ready(()=>{
                 lat,
                 longitude,
                 regdocid,
-                regno
+                regno,
+                regdate,
+                hasbranches,
+                industries
             },
             (data)=>{
                 let notification=""
