@@ -44,4 +44,44 @@
         echo $customer->getcustomerdetails($customerid);
     }
 
+    if(isset($_GET['getcustomerindustries'])){
+        $customerid=$_GET['customerid'];
+        echo $customer->getcustomerindustries($customerid);
+    }
+
+    // Create a route for uploading customer logo
+    if(isset($_POST['changecustomerlogo'])){
+        $customerid=$_POST['customerid'];
+        $imagepath='../customer_images/'.mt_rand(100000,9999999).'_'.$_FILES['file']['name'];
+        $tempname=$_FILES['file']['tmp_name'];
+        // moving the file from temp to permanent location
+        if(move_uploaded_file($tempname,$imagepath)){
+            // update the path in the database
+            echo $customer->changecustomerlogo($customerid,$imagepath);
+        }else{
+            echo "failed";
+        }
+    }
+
+    // create a route for saving the customer branch
+    if(isset($_POST['savecustomerbranch'])){
+        $branchid=$_POST['branchid'];
+        $customerid =$_POST['customerid'];
+        $branchname=$_POST['branchname'];
+        $physicaladdress =$_POST['physicaladdress'];
+        $lat =$_POST['lat'];
+        $lon =$_POST['lon'];
+        $telephone=$_POST['telephone'];
+        $email=$_POST['email'];
+        echo $customer-> savecustomerbranch($branchid,$customerid, $branchname,$physicaladdress, $lat, $lon, $telephone,$email);
+    }
+
+    // route for fetching customer branches
+
+    if(isset($_GET['getcustomerbranches'])){
+        $customerid=$_GET['customerid'];
+        echo $customer->getcustomerbranches($customerid);
+    }
+
+
 ?>

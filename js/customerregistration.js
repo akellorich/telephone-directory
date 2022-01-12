@@ -1,4 +1,5 @@
 $(document).ready(()=>{
+    const customeridfield=$("#customerid")
     const classificationfield=$("#customerclassification")
     const regdocfield=$("#regdoc")
     const industrieslist=$("#industrieslist")
@@ -18,82 +19,134 @@ $(document).ready(()=>{
     const hasbrachesfield=$("#hasbranches")
     // check if we are on edit mode
     const customerid=location.hash.substring(1)
+    // get registration documents
+    getcustomerclassifications().done(()=>{
+         getregistrationdocuments().done(()=>{
+            getcustomerindustries().done(()=>{
+                if(customerid!==undefined ){
+                    // switch to edit mode
+                    // get customers details and populate on the screen
+                    $.getJSON(
+                        "controllers/customeroperations.php",
+                        {
+                            getcustomerdetails:true,
+                            customerid
+                        },
+                        (data)=>{
+                            // customeridfield.val(data[0].customerid)
+                            customeridfield.val(customerid)
+                            customernamefield.val(data[0].customername)
+                            physicaladdressfield.val(data[0].physicaladdress)
+                            postaladdressfield.val(data[0].postaladdress)
+                            townfield.val(data[0].town)
+                            postalcodefield.val(data[0].postalcode)
+                            telephonefield.val(data[0].telephone)
+                            emailfield.val(data[0].email)
+                            coordinatesfield.val(`${data[0].lat},${data[0].long}`)
+                            regdocnofield.val(data[0].regno)
+                            regdatefield.val(data[0].registrationdate)
+                            // regdatefield.val(data[0].physicaladdress)
+                            hasbrachesfield.prop("checked",data[0].hasbranches)
+                            classificationfield.val(data[0].classificationid)
+                            regdocfield.val(data[0].regdocid)
+                        }
+                    )
+                    // get the customer industries
+                    $.getJSON(
+                        "controllers/customeroperations.php",
+                        {
+                            getcustomerindustries:true,
+                            customerid
+                        },
+                        (data)=>{
+                            // unchhek all checkboxes
+                            industrieslist.find(".industry").prop("checked",false)
+                            data.forEach((industry)=>{
+                                industrieslist.find(".industry").each(function(){
+                                    let $this=$(this)
+                                    if($this.attr("id")==industry.industryid){
+                                        $this.prop("checked",true)
+                                    }
+                                })
+                            })
+                        }
+                    )
+                }else{
+                    customeridfield.val("0")
+                }
+            })
+         })
+        
+    })
+   
+   
+   
+
     
-    if(customerid!==undefined ){
-        // switch to edit mode
-        // get customers details and populate on the screen
-        $.getJSON(
-            "controllers/customeroperations.php",
-            {
-                getcustomerdetails:true,
-                customerid
-            },
-            (data)=>{
-                // customeridfield.val(data[0].customerid)
-                customernamefield.val(data[0].customername)
-                physicaladdressfield.val(data[0].physicaladdress)
-                postaladdressfield.val(data[0].postaladdress)
-                townfield.val(data[0].town)
-                postalcodefield.val(data[0].postalcode)
-                telephonefield.val(data[0].telephone)
-                emailfield.val(data[0].email)
-                coordinatesfield.val(`${data[0].lat},${data[0].long}`)
-                regdocnofield.val(data[0].regno)
-                regdatefield.val(data[0].regdate)
-                // regdatefield.val(data[0].physicaladdress)
-                hasbrachesfield.prop("checked",data[0].hasbranches)
-                classificationfield.val(data[0].classificationid)
-                regdocfield.val(data[0].regdocid)
-            }
-        )
-    }
     // assign datepicker to the regdatefield
     regdatefield.datepicker({maxDate: new Date(),dateFormat: 'dd-M-yy'})
     // get existing classifications form the database
-    $.getJSON(
-        "controllers/settingsoperations.php",
-        {
-            getclassifications:true
-        },
-        (data)=>{
-            let results=`<option value=''>&lt;Choose One&gt;</option>`
-            data.forEach((classification)=>{
-                results+=`<option value='${classification.classificationid}'>${classification.description}</option>`
-            })
-            // push the data to the select dropdown
-            classificationfield.html(results)
-        }
-    )
-
+    function getcustomerclassifications(){
+        dfd= new $.Deferred()
+        $.getJSON(
+            "controllers/settingsoperations.php",
+            {
+                getclassifications:true
+            },
+            (data)=>{
+                let results=`<option value=''>&lt;Choose One&gt;</option>`
+                data.forEach((classification)=>{
+                    results+=`<option value='${classification.classificationid}'>${classification.description}</option>`
+                })
+                // push the data to the select dropdown
+                classificationfield.html(results)
+                dfd.resolve()
+            }
+        )
+        return dfd.promise()
+    }
+    
     // get existing registration documents
-    $.getJSON(
-        "controllers/settingsoperations.php",
-        {
-            getregdocs:true
-        },
-        (data)=>{
-            let results=`<option value=''>&lt;Choose One&gt;</option>`
-            data.forEach((regdoc)=>{
-                results+=`<option value='${regdoc.regdocid}'>${regdoc.description}</option>`
-            })
-            regdocfield.html(results)
-        }
-    )
+    function getregistrationdocuments(){
+        dfd = new $.Deferred()
+        $.getJSON(
+            "controllers/settingsoperations.php",
+            {
+                getregdocs:true
+            },
+            (data)=>{
+                let results=`<option value=''>&lt;Choose One&gt;</option>`
+                data.forEach((regdoc)=>{
+                    results+=`<option value='${regdoc.regdocid}'>${regdoc.description}</option>`
+                })
+                regdocfield.html(results)
+                dfd.resolve()
+            }
+        )
+        return dfd.promise()
+    }
+    
 
-    // get erxisting industries
-    $.getJSON(
-        "controllers/settingsoperations.php",
-        {
-            getindustries:true
-        },
-        (data)=>{
-            let results=""
-            data.forEach((industry)=>{
-                results+=`<tr><td><input type='checkbox' id='${industry.industryid}' class='industry'></td><td>${industry.description}</td></tr>`
-            })
-            industrieslist.find("tbody").html(results)
-        }
-    )
+    // get existing industries
+    function getcustomerindustries(){
+        dfd= new $.Deferred()
+        $.getJSON(
+            "controllers/settingsoperations.php",
+            {
+                getindustries:true
+            },
+            (data)=>{
+                let results=""
+                data.forEach((industry)=>{
+                    results+=`<tr><td><input type='checkbox' id='${industry.industryid}' class='industry'></td><td>${industry.description}</td></tr>`
+                })
+                industrieslist.find("tbody").html(results)
+                dfd.resolve()
+            }
+        )
+        return dfd.promise()
+    }
+    
 
     // listen to the click event of the current location 
     addcoordinatesbutton.on("click",()=>{
@@ -111,8 +164,9 @@ $(document).ready(()=>{
 
     // listen to click of the save button 
     savebutton.on("click",()=>{
-        coords=coordinatesfield.val().split(",")
-        let classificationid=classificationfield.val(),
+        let coords=coordinatesfield.val().split(","),
+            customerid=customeridfield.val(),
+            classificationid=classificationfield.val(),
             regdocid=regdocfield.val(),
             lat=coords[0].trim(),
             longitude=coords[1].trim(),
@@ -143,7 +197,7 @@ $(document).ready(()=>{
             "controllers/customeroperations.php",
             {
                 savecustomer:true,
-                customerid:0,
+                customerid,
                 customerno:'',
                 customername,
                 classificationid,

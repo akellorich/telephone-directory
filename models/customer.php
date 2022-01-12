@@ -30,5 +30,27 @@
             return $this->getJSON($sql);
         }
 
+        public function getcustomerindustries($customerid){
+            $sql="CALL `sp_getcustomerindustries`({$customerid})";
+            return $this->getJSON($sql);
+        }
+
+        public function changecustomerlogo($customerid,$imagepath){
+            $sql="CALL `sp_changecustomerlogo`({$customerid},'{$imagepath}')";
+            $this->getData($sql);
+            return "success";
+        }
+
+        public function savecustomerbranch($branchid,$customerid, $branchname,$physicaladdress, $lat, $lon, $telephone,$email){
+            $sql="CALL `sp_savecustomerbranch`({$branchid},{$customerid},'{$branchname}','{$physicaladdress}',{$lat}, {$lon},{$telephone},'{$email}')";
+            $this->getData($sql);
+            return "success";
+        }
+
+        public function getcustomerbranches($customerid){
+            $sql="CALL `sp_getcustomerbranches`({$customerid})";
+            return $this->getJSON($sql);
+        }
+
     }
 ?>
