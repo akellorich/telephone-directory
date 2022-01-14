@@ -14,6 +14,8 @@ $(document).ready(()=>{
     const emailfield=$("#email")
     const regdocnofield=$("#regdocno")
     const notifications=$("#notifications")
+    const regdatefield=$("#regdate")
+    const hasbranchesfield=$("#branches")
     
     // get existing classifications form the database
     $.getJSON(
@@ -89,7 +91,9 @@ $(document).ready(()=>{
             postalcode=postalcodefield.val(),
             telephone=telephonefield.val(),
             email=emailfield.val(),
-            regno=regdocnofield.val()
+            regno=regdocnofield.val(),
+            regdate=regdatefield.val(),
+            hasbranches=hasbranchesfield.prop("checked")?1:0
         // check for blank fields
         // save the data 
         $.post(
@@ -109,7 +113,10 @@ $(document).ready(()=>{
                 lat,
                 longitude,
                 regdocid,
-                regno
+                regno,
+                regdate, 
+                hasbranches
+
             },
             (data)=>{
                 let notification=""

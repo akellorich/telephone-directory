@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <title>Email Configuration</title>
+</head>
+<body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <h5>Email Configuration</h5>
+                    <div id="saveconfignotifications"></div>
+                    <div class="form-group">
+                        <label for="emailaddress">Email Address</label>
+                        <input type="email" name="email" id="emailaddress" class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="smtpserver">SMTP Server</label>
+                        <input type="text" name="smtpserver" id="smtpserver" class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="port">SMTP Port</label>
+                        <input type="number" name="port" id="port" class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="usessl">
+                        <label class="form-check-label" for="usessl">Use SSL?</label>
+                    </div>
+
+                    <button class="btn btn-success btn-sm mt-3" id="saveemailconfig">Save Email Configuration</button>
+                </div>
+                <div class="col">
+                    <h5>Test Email Configuration</h5>
+                    <div id="sendemailnotifications"></div>
+                    <div class="form-group">
+                        <label for="recipient">Email Addres</label>
+                        <input type="text" name="recipient" id="recipient" class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" name="subject" id="subject" class="form-control form-control-sm">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea name="messafe" id="message" cols="20" rows="10" class="form-control form-control-sm"></textarea>
+                    </div>
+
+                    <button class="btn btn-success btn-sm mt-3" id="sendtestemail">Send Test Email</button>
+                </div>
+            </div>
+        </div>
+</body>
+<script src="js/jquery-3.6.0.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/emailconfig.js"></script>
+</html>

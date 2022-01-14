@@ -7,7 +7,7 @@
             return $this->getData($sql)->rowCount();
         }
 
-        public function saveUser($userid,$username,$userpassword,$firstname ,$lastname,$gender,$mobile, $email,$accountactive,$systemadmin){
+        public function saveUser($userid,$username,$userpassword,$firstname ,$lastname,$gender,$mobile, $email,$accountactive,$systemadmin,$activationcode){
             // check if username is already in use
             if($this->checkUserExists($userid,'username',$username)){
                 return "username exists";
@@ -19,7 +19,7 @@
                 return "mobile exists";
             }else{
                 // save the user
-                $sql="CALL `sp_saveuser`({$userid}, '{$username}','{$userpassword}','{$firstname}','{$lastname}','{$gender}',{$mobile}, '{$email}',{$accountactive},{$systemadmin},2)";
+                $sql="CALL `sp_saveuser`({$userid}, '{$username}','{$userpassword}','{$firstname}','{$lastname}','{$gender}',{$mobile}, '{$email}',{$accountactive},{$systemadmin},2,'{$activationcode}')";
                 $this->getData($sql);
                 return "success";
             }
@@ -43,7 +43,15 @@
             return $_SESSION['firstname'].' '. $_SESSION['lastname'];
         }
 
-        
+        public function getuserwithemail($email){
+            $sql="CALL `sp_getuserdetailswithemail`('{$email}')";
+            return $this->getData($sql);
+        }
 
+        public function changeuserpassword($userid,$password){
+            $sql="CALL `sp_changeuserpassword`({$userid},'{$password}')";
+            $this->getData($sql);
+            return "success";
+        }
     }
 ?>

@@ -47,10 +47,35 @@
                     <button class="btn btn-danger btn-sm" id="close"><i class="fas fa-times"></i> Close</button>
                 </div>
                 
-                <div class="mt-4">
+                <div class="mt-4 d-flex justify-content-between">
                      <a href="signup.php">Sign Up Instead</a>
+                     <a href="#" id="resetpasswordlink">Forgot Password</a>
                 </div>
                
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for resetting password  -->
+    <div class="modal" tabindex="-1" role="dialog" id="resetpasswordmodal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reset your Pasword</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="resetemailpasswordnotifications"></div>
+                    <div class="form-group">
+                        <div id="passwordresetnotifications"></div>
+                        <label for="email">Email Address</label>
+                        <input type="email" name="" id="email" class="form-control form-control-sm">
+                    </div>
+
+                    <button class="btn btn-sm btn-success" id="resetpasswordbutton">Reset Password</button>
+                </div>
             </div>
         </div>
     </div>

@@ -19,9 +19,12 @@
         $longitude=$_POST['longitude'];
         $regdocid=$_POST['regdocid'] ;
         $regno=$_POST['regno'];
+        $hasbranches=$_POST['hasbranches'];
+        $regdate=$_POST['regdate'];
+        $refno=mt_rand(1000,9999);
         
         echo $customer->savecustomer($customerid, $customerno, $customername,$classificationid,$telephone,$email,$physicaladdress,$postaladdress,$town,$postalcode,
-        $lat,$longitude,$regdocid, $regno);
+        $lat,$longitude,$regdocid, $regno,$regdate,$hasbranches,$refno);
     }
 
 ?>
