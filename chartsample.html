@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <title>Sample Chart</title>
+</head> 
+    <div class="container">
+        <canvas id="mychart"></canvas>
+    </div>
+<body>
+    
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js" integrity="sha256-qSIshlknROr4J8GMHRlW3fGKrPki733tLq+qeMCR05Q=" crossorigin="anonymous"></script>
+<script>
+    let mychart=document.getElementById("mychart").getContext('2d')
+    // set chart defaults
+    Chart.defaults.global.defaultFontFamily='Verdana'
+    Chart.defaults.global.defaultFontSize=12
+
+    let chart=new Chart(mychart,{
+        type:'line',//horizontalBar,line,pie,donought,radar,polarArea
+        data:{
+            labels:['Kikuyu','Luhya','Kalenjin','Luo','Kamba'],
+            datasets:[{
+                label:'population',
+                data:[
+                    8148,
+                    6823,
+                    6358,
+                    5066,
+                    4663
+                ],
+                backgroundColor:'green',
+                borderWidth:4,
+                borderColor:'grey'
+            }]
+        },
+        options:{
+            title:{
+                display:true,
+                text:'Kenya Population By Tribe',
+                fontSize:25
+            },
+            legend:{
+                display:true,
+                position:'right',
+            }
+        }
+    })
+</script>
+</html>

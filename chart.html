@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    <title>Chart</title>
+   
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <canvas id="mychart"></canvas>
+            </div>
+            <div class="col">
+                 <canvas id="customersbyindustry"></canvas>
+            </div>
+        </div>
+       
+    </div>
+</body>
+<script src="js/jquery-3.6.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js" integrity="sha256-qSIshlknROr4J8GMHRlW3fGKrPki733tLq+qeMCR05Q=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(()=>{
+        console.log("Jquery is running")
+
+        $.getJSON(
+            "controllers/customeroperations.php",
+            {
+                getcustomerbyclassification:true
+            },
+            (customerslist)=>{
+                let labels=[],
+                    data=[]
+                customerslist.forEach((item)=>{
+                    labels.push(item.categoryname)
+                    data.push(item.appears)
+                }) 
+
+                let mychart=document.getElementById("mychart").getContext('2d')
+                Chart.defaults.global.defaultFontSize=12
+                Chart.defaults.global.defaultFontFamily='Verdana'
+                Chart.defaults.global.defaultFontColor='#05668d'
+
+                const chart=new Chart(mychart,{
+                    type:'doughnut',// horizontalBar, line, pie,donought, radar, polarArea,
+                    data:{
+                        labels:labels,
+                        datasets:[{
+                            label:'Customers',
+                            data:data,
+                            backgroundColor:['#02C39A','#00a896','#028090','#05668d'] 
+                        }
+                        ]
+                    },
+                    options:{
+                        title:{
+                            display:true,
+                            text:'Customers By Category',
+                            fontSize:25
+                        },
+                        legend:{
+                            display:true,
+                            position:'left'
+                        }
+                    }
+                })
+            }
+        )
+        
+        $.getJSON(
+            "controllers/customeroperations.php",
+            {
+                getcustomersbyindustry:true
+            },
+            (industries)=>{
+                let labels=[],
+                    data=[]
+
+                let myindustrychart=document.getElementById("customersbyindustry").getContext('2d')
+                Chart.defaults.global.defaultFontSize=12
+                Chart.defaults.global.defaultFontFamily='Verdana'
+                Chart.defaults.global.defaultFontColor='#05668d'
+
+                industries.forEach((item)=>{
+                    labels.push(item.industry)
+                    data.push(item.appears)
+                }) 
+
+                const chart=new Chart(myindustrychart,{
+                    type:'horizontalBar',// horizontalBar, line, pie,donought, radar, polarArea,
+                    data:{
+                        labels:labels,
+                        datasets:[{
+                            label:'Customers',
+                            data:data,
+                            backgroundColor:['#02C39A','#00a896','#028090','#05668d'] 
+                        }
+                        ]
+                    },
+                    options:{
+                        title:{
+                            display:true,
+                            text:'Customers By Industry',
+                            fontSize:25
+                        },
+                        legend:{
+                            display:true,
+                            position:'left'
+                        }
+                    }
+                })
+            }
+        )
+    })
+    
+</script>
+</html>
