@@ -25,6 +25,10 @@
             $response = '{"ResultDesc": '.$errormessage.',"ResultCode": 1}';
             // save the validation in a log file
             $logFile = "../logfiles/failed_validations.txt"; 
+            $errormessage="Sorry amount paid should be ".$customerbalance;
+            $response = '{"ResultDesc": '.$errormessage.',"ResultCode": 1}';
+            // save the validation in a log file
+            $logFile = "failed_validations.txt"; 
             $log = fopen($logFile, "a");
             fwrite($log, $mpesaResponse);
             fclose($log);
